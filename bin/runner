@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.push(File.join(File.dirname(__FILE__), "/../lib"))
+require "searcher"
+require "reader"
+
+if ARGV.count != 1
+  puts "Please supply a file path. (e.g. bin/runner path/to/file)"
+else
+  Searcher.new(file_path: ARGV[0]).search.each { |result| puts result }
+end
