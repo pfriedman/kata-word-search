@@ -41,4 +41,28 @@ describe Searcher do
       end
     end
   end
+
+  describe "#coordinates_for_word" do
+    let(:expected_coordinates_for_word) do
+      [
+        [0, 5],
+        [1, 5],
+        [2, 5],
+        [3, 5],
+        [4, 5],
+        [5, 5],
+      ]
+    end
+
+    let(:file_path) { File.join(File.dirname(__FILE__), "../data/input.txt") }
+
+    it "returns the coordinates for a given word" do
+      expect(subject.coordinates_for_word(word: "SCOTTY")).to eq(expected_coordinates_for_word)
+    end
+
+    it "returns nil for an unknown word" do
+      expect(subject.coordinates_for_word(word: "ASDF")).to be_nil
+    end
+  end
+
 end
