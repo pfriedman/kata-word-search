@@ -40,7 +40,7 @@ describe Reader do
       end
     end
   end
-  
+
   describe "#words" do
     context "when data is nil" do
       let(:file_path) { nil }
@@ -69,5 +69,33 @@ describe Reader do
       it { expect(subject.grid.first.length).to eq(expected_grid_size) }
     end
   end
+
+  describe "#letters_and_coordinates" do
+    context "given data" do
+      let(:expected_coordinates) do
+        [
+          [0, 0], [4, 0], [12, 1], [2, 2], [10, 6], [1, 8], [4, 12], [13, 12], [5, 13], [7, 13], [12, 13]
+        ]
+      end
+      let(:file_path) { File.join(File.dirname(__FILE__), "../data/input.txt") }
+
+      it { expect(subject.letters_and_coordinates).to be_an_instance_of(Hash) }
+      it { expect(subject.letters_and_coordinates["U"]).to eq(expected_coordinates) }
+    end
+  end
+
+  describe "#letter_at" do
+    let(:file_path) { File.join(File.dirname(__FILE__), "../data/input.txt") }
+    it "returns the letter at the given coordinates" do
+      [
+        ["U", 4, 0],
+        ["Y", 3, 9],
+        ["R", 8, 7]
+      ].each do |letter, x, y|
+        expect(subject.letter_at(x: x, y: y)).to eq(letter)
+      end
+    end
+  end
+
 end
 
