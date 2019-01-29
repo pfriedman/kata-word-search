@@ -115,6 +115,67 @@ describe Searcher do
     end
 
 
+    context "reverse horizontally" do
+      let(:expected_coordinates_for_word) do
+        [
+          [4, 7],
+          [3, 7],
+          [2, 7],
+          [1, 7],
+        ]
+      end
+
+      it "returns the coordinates for a given word" do
+        expect(subject.coordinates_for_word(word: "KIRK")).to eq(expected_coordinates_for_word)
+      end
+    end
+
+    context "reverse vertically" do
+      let(:expected_coordinates_for_word) do
+        [
+          [5, 9],
+          [5, 8],
+          [5, 7],
+          [5, 6],
+        ]
+      end
+
+      it "returns the coordinates for a given word" do
+        expect(subject.coordinates_for_word(word: "KHAN")).to eq(expected_coordinates_for_word)
+      end
+    end
+
+    context "reverse descending" do
+      let(:expected_coordinates_for_word) do
+        [
+          [4, 0],
+          [3, 1],
+          [2, 2],
+          [1, 3],
+          [0, 4],
+        ]
+      end
+
+      it "returns the coordinates for a given word" do
+        expect(subject.coordinates_for_word(word: "UHURA")).to eq(expected_coordinates_for_word)
+      end
+    end
+
+    context "reverse ascending" do
+      let(:expected_coordinates_for_word) do
+        [
+          [3, 3],
+          [2, 2],
+          [1, 1],
+          [0, 0],
+        ]
+      end
+
+      it "returns the coordinates for a given word" do
+        expect(subject.coordinates_for_word(word: "SULU")).to eq(expected_coordinates_for_word)
+      end
+    end
+
   end
 
 end

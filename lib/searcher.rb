@@ -19,7 +19,10 @@ class Searcher
     coordinates_for_first_letter(word).each do |x, y|
 
       search_directions.each do |method_name|
-        coordinates = send(method_name, word: word, x: x, y: y)
+        coordinates = send(method_name.to_sym, word: word, x: x, y: y)
+        return coordinates if word_at(coordinates: coordinates) == word
+
+        coordinates = send("reverse_#{method_name}".to_sym, word: word, x: x, y: y)
         return coordinates if word_at(coordinates: coordinates) == word
       end
     end
@@ -39,21 +42,45 @@ class Searcher
     end
   end
 
+  def reverse_horizontal_coordinates(word:, x:, y:)
+    word.length.times.inject([]) do |coordinates, i|
+      coordinates << [x - i, y]
+    end
+  end
+
   def vertical_coordinates(word:, x:, y:)
     word.length.times.inject([]) do |coordinates, i|
       coordinates << [x, y + i]
     end
   end
 
-  def descending_along_x_axis_coordinates(word:, x:, y:)
+  def reverse_vertical_coordinates(word:, x:, y:)
+    word.length.times.inject([]) do |coordinates, i|
+      coordinates << [x, y - i]
+    end
+  end
+
+  def descending_coordinates(word:, x:, y:)
     word.length.times.inject([]) do |coordinates, i|
       coordinates << [x + i, y + i]
     end
   end
 
-  def ascending_along_x_axis_coordinates(word:, x:, y:)
+  def reverse_descending_coordinates(word:, x:, y:)
+    word.length.times.inject([]) do |coordinates, i|
+      coordinates << [x - i, y + i]
+    end
+  end
+
+  def ascending_coordinates(word:, x:, y:)
     word.length.times.inject([]) do |coordinates, i|
       coordinates << [x + i, y - i]
+    end
+  end
+
+  def reverse_ascending_coordinates(word:, x:, y:)
+    word.length.times.inject([]) do |coordinates, i|
+      coordinates << [x - i, y - i]
     end
   end
 
@@ -64,12 +91,7 @@ class Searcher
   end
 
   def search_directions
-    [
-      :horizontal_coordinates,
-      :vertical_coordinates,
-      :descending_along_x_axis_coordinates,
-      :ascending_along_x_axis_coordinates
-    ]
+    %w[ horizontal_coordinates vertical_coordinates descending_coordinates ascending_coordinates ]
   end
 
 end
