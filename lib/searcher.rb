@@ -16,19 +16,15 @@ class Searcher
   # @param [String] word
   # @return [Array<Array>, NilClass] the x and y coordinates for each letter in the word
   def coordinates_for_word(word:)
-    result = nil
-
     coordinates_for_first_letter(word).each do |x, y|
 
-      horizontal_coordinates = horizontal_coordinates(word: word, x: x, y: y)
-      return horizontal_coordinates if word_at(coordinates: horizontal_coordinates) == word
-
-      vertical_coordinates = vertical_coordinates(word: word, x: x, y: y)
-      return vertical_coordinates if word_at(coordinates: vertical_coordinates) == word
-
+      search_directions.each do |method_name|
+        coordinates = send(method_name, word: word, x: x, y: y)
+        return coordinates if word_at(coordinates: coordinates) == word
+      end
     end
 
-    result
+    return nil
   end
 
   private
@@ -49,10 +45,31 @@ class Searcher
     end
   end
 
+  def descending_along_x_axis_coordinates(word:, x:, y:)
+    word.length.times.inject([]) do |coordinates, i|
+      coordinates << [x + i, y + i]
+    end
+  end
+
+  def ascending_along_x_axis_coordinates(word:, x:, y:)
+    word.length.times.inject([]) do |coordinates, i|
+      coordinates << [x + i, y - i]
+    end
+  end
+
   def word_at(coordinates:)
     coordinates.inject([]) do |letters, coordinate|
       letters << reader.letter_at(x: coordinate[0], y: coordinate[1])
     end.join
+  end
+
+  def search_directions
+    [
+      :horizontal_coordinates,
+      :vertical_coordinates,
+      :descending_along_x_axis_coordinates,
+      :ascending_along_x_axis_coordinates
+    ]
   end
 
 end

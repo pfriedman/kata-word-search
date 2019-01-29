@@ -81,6 +81,40 @@ describe Searcher do
         expect(subject.coordinates_for_word(word: "BONES")).to eq(expected_coordinates_for_word)
       end
     end
+
+    context "descending along X axis" do
+      let(:expected_coordinates_for_word) do
+        [
+          [2, 1],
+          [3, 2],
+          [4, 3],
+          [5, 4],
+          [6, 5],
+        ]
+      end
+
+      it "returns the coordinates for a given word" do
+        expect(subject.coordinates_for_word(word: "SPOCK")).to eq(expected_coordinates_for_word)
+      end
+    end
+
+    context "ascending along X axis" do
+      let(:expected_coordinates_for_word) do
+        [
+          [10, 14],
+          [11, 13],
+          [12, 12],
+          [13, 11],
+          [14, 10],
+        ]
+      end
+
+      it "returns the coordinates for a given word" do
+        expect(subject.coordinates_for_word(word: "HELLO")).to eq(expected_coordinates_for_word)
+      end
+    end
+
+
   end
 
 end
