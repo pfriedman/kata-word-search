@@ -30,7 +30,22 @@ class Searcher
     return nil
   end
 
+  # Main public method to output the results of a given word search file
+  #
+  # @return [Array<String>]
+  def search
+    reader.words.map { |word| search_result(word: word) }
+  end
+
   private
+
+  def search_result(word:)
+    "#{word}: #{format_coordinates(coordinates: coordinates_for_word(word: word))}"
+  end
+
+  def format_coordinates(coordinates:)
+    coordinates.map(&:to_s).join(",").gsub("[", "(").gsub("]", ")")
+  end
 
   def coordinates_for_first_letter(word)
     reader.letters_and_coordinates[word.chars.first]
