@@ -44,7 +44,7 @@ class Searcher
   end
 
   def format_coordinates(coordinates:)
-    coordinates.map(&:to_s).join(",").gsub("[", "(").gsub("]", ")")
+    coordinates.map(&:to_s).join(",").gsub("[", "(").gsub("]", ")").gsub(", ", ",")
   end
 
   def coordinates_for_first_letter(word)
