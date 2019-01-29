@@ -28,6 +28,8 @@ class Reader
   # Return the letter at the given x and y coordinates
   # @return [String]
   def letter_at(x:, y:)
+    return nil if x.negative? || y.negative?
+    return nil if grid[y].nil?
     grid[y][x]
   end
 

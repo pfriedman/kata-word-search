@@ -20,11 +20,12 @@ class Searcher
 
     coordinates_for_first_letter(word).each do |x, y|
 
-      horizontal_coordinates = horizontal_coordinates(word, x, y)
-      if word_at_coordinates(horizontal_coordinates) == word
-        result = horizontal_coordinates
-        break
-      end
+      horizontal_coordinates = horizontal_coordinates(word: word, x: x, y: y)
+      return horizontal_coordinates if word_at(coordinates: horizontal_coordinates) == word
+
+      vertical_coordinates = vertical_coordinates(word: word, x: x, y: y)
+      return vertical_coordinates if word_at(coordinates: vertical_coordinates) == word
+
     end
 
     result
@@ -36,15 +37,22 @@ class Searcher
     reader.letters_and_coordinates[word.chars.first]
   end
 
-  def horizontal_coordinates(word, x, y)
+  def horizontal_coordinates(word:, x:, y:)
     word.length.times.inject([]) do |coordinates, i|
       coordinates << [x + i, y]
     end
   end
 
-  def word_at_coordinates(coordinates)
+  def vertical_coordinates(word:, x:, y:)
+    word.length.times.inject([]) do |coordinates, i|
+      coordinates << [x, y + i]
+    end
+  end
+
+  def word_at(coordinates:)
     coordinates.inject([]) do |letters, coordinate|
       letters << reader.letter_at(x: coordinate[0], y: coordinate[1])
     end.join
   end
+
 end

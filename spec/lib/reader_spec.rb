@@ -90,7 +90,10 @@ describe Reader do
       [
         ["U", 4, 0],
         ["Y", 3, 9],
-        ["R", 8, 7]
+        ["R", 8, 7],
+        [nil, 0, 99],
+        [nil, 99, 1],
+        [nil, 0, -1],
       ].each do |letter, x, y|
         expect(subject.letter_at(x: x, y: y)).to eq(letter)
       end
