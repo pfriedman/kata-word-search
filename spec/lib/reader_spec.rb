@@ -40,5 +40,34 @@ describe Reader do
       end
     end
   end
+  
+  describe "#words" do
+    context "when data is nil" do
+      let(:file_path) { nil }
+      it { expect(subject.words).to be_nil }
+    end
+
+    context "given data" do
+      let(:expected_words) { "BONES,KHAN,KIRK,SCOTTY,SPOCK,SULU,UHURA".split(",") }
+      let(:file_path) { File.join(File.dirname(__FILE__), "../data/input.txt") }
+
+      it { expect(subject.words).to eq expected_words }
+    end
+  end
+
+  describe "#grid" do
+    context "when data is nil" do
+      let(:file_path) { nil }
+      it { expect(subject.grid).to be_nil }
+    end
+
+    context "given data" do
+      let(:expected_grid_size) { 15 }
+      let(:file_path) { File.join(File.dirname(__FILE__), "../data/input.txt") }
+
+      it { expect(subject.grid.length).to eq(expected_grid_size) }
+      it { expect(subject.grid.first.length).to eq(expected_grid_size) }
+    end
+  end
 end
 
